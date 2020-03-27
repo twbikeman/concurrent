@@ -10,10 +10,30 @@ void myrand(double *d, double *theta) {
 
 }
 
+double  needlePos() {
+  double d = (double)rand() / (RAND_MAX);
+  double theta = (double)rand() / (RAND_MAX) * 2 * acos(-1.0);
+  double l = sin(theta);
+  return d + l;
+
+}
+
 
 int main() {
-  double d, theta;
-  myrand(&d, &theta);
-  printf("(%f,%f)\n", d, theta);
+
+  srand(time(NULL));
+
+  
+  int cross = 0;
+  double test = 0.0;
+  for(int i = 0; i < 1000; i++) {
+    test = needlePos();
+    if (test > 1.0 || test < 0.0) cross++;
+  }
+  
+
+  printf("%f\n", (double)cross / 1000);
   return 0;
+
+  
 }
