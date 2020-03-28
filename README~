@@ -1,0 +1,52 @@
+1.
+
+parant--(fork)---> parent(break)
+          |
+	  -->-child0-->(fork)-->child0(break)
+	                 |
+		         -->-child1-->(fork)-->child1(break)
+			                |
+					-->child2
+						 
+
+The program would generate 4 proccesses. After 1st fork, the parent received th child0's pid ,then breaked the loop, but the child0 proccess carried on the loop to fork second time.After 2ed fork, child0 breaked, but child1 carried on the loop to generate child2, after 3rd fork, child1  break, but child2 was the last iteration of the loop.
+
+2. 
+
+parant--(fork)---> child0(break)
+          |
+	  -->-parent-->(fork)-->child1(break)
+	                 |
+		         -->-parent-->(fork)-->child2(break)
+			                |
+					-->parent
+
+The program would generate 4 proccess. By contrast to question1, after fork function, new proccess(child) will break the loop, then the parent kept going on the loop.
+
+
+3.
+
+
+
+
+                                ---------->child3
+                                |
+                   -------->child1(fork)-->child1
+                   |
+          -->parent(fork)--parent(fork)--->parent
+          |                     | 
+parant(fork)                    ---------->child4  
+          |
+	  -->-child0(fork)-->child0(fork)-->child0
+	                 |      |
+			 |       --------->child5
+                         -->-child2(for)-->child2
+			        |
+				----------child6
+
+
+There were 8 proccesses which was created. Becasue only when fork failure will throw a -1, then each fork will double the number of proccesses.
+
+4.
+
+				
