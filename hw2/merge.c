@@ -30,11 +30,11 @@ int main(int argc, char **argv) {
   int *mem = malloc((right - left + 1) * sizeof(int));
 
 
-  /* key_t key= ftok("shmfile", 'a'); */
-  /* int shm_id = shmget(key, 1024, IPC_CREAT | 0666); */
-  /* int *shm_ptr = (int *)shmat(shm_id, NULL, 0); */
+  key_t key= ftok("shmfile", 'a');
+  int shm_id = shmget(key, 1024 * sizeof(int), 0666);
+  int *shm_ptr = (int *)shmat(shm_id, NULL, 0);
 
-  /* printf("-----------------\n"); */
+
   
   
   
