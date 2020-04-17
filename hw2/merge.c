@@ -2,19 +2,21 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/shm.h>
+#include <sys/ipc.h>
+#include <sys/types.h>
 
 
-
-void MergeSort(int left, int right) {
+void MergeSort(int left, int right, int ppid) {
   
-  char param[5][80];
+  char param[4][80];
   
   sprintf(param[0], "./merge");
   sprintf(param[1], "%d", left);
   sprintf(param[2], "%d", right);
-  sprintf(param[3], "mproc");
-  sprintf(param[4], "%d", getpid());
-  char *params[6] = {param[0],param[1],param[2],param[3],param[4],NULL}; 
+  sprintf(param[3], "%d", ppid);
+
+  char *params[5] = {param[0], param[1], param[2], param[3], NULL};
 
   if (fork() == 0) {
 execvp(params[0], params); 
@@ -23,17 +25,76 @@ execvp(params[0], params);
     return;
 }
 
-  
 
+int search(int *a, int left, int right, int x) {
+  int middle =  (left + right) / 2;
+  if (x < a[left]) return left;
+  if (x > a[right]) return right + 1;
+  if ( a[middle] >  x &&  x > a[middle - 1]) return middle;
+  if (x < a[middle] )
+    return search(a, left, middle - 1, x);
+  else
+    return search(a, middle + 1, right, x);
+}
+
+  
+void BinaryMerge(int left, int right, int ppid, int *shm_ptr) {
+  if (fork() == 0) {
+    int i;
+    int middle  = (left + right) / 2;
+    for(i = left; i < right; i++) {
+    
+      char message_create[80];
+      char *message_createPtr = message_create;
+      sprintf(message_createPtr, "      $$$ B-PROC(%d): create by M-PROC(%d) for a[%d] = %d is created\n", getpid(), ppid, i, shm_ptr[i]);
+      write(1,message_create, strlen(message_create));
+
+
+      char message_write[80];
+      char *message_writePtr = message_write;
+      message_writePtr += sprintf(message_writePtr, "      $$$ B-PROC(%d): a[%d] = %d", getpid(), i, shm_ptr[i]);
+      if (i < middle) {
+	int pos = search(shm_ptr, middle + 1, right, shm_ptr[i] );
+	if (pos == middle + 1)
+	  message_writePtr +=  sprintf(message_writePtr, " is smaller than a[%d] = %d is written to\n", pos, shm_ptr[pos]); /* delta = 0 */
+	else if (pos == (right + 1))
+	  message_writePtr +=  sprintf(message_writePtr, " is larger than a[%d] = %d is written to\n", pos - 1, shm_ptr[pos - 1]); /* delta = right + 1 -left
+	else
+	  message_writePtr +=  sprintf(message_writePtr, " is between  a[%d] = %d  and a[%d] = %d\n", pos-1, shm_ptr[pos-1], pos, shm_ptr[pos]);
+      }
+      else {
+	int pos = search(shm_ptr, left, middle, shm_ptr[i] );
+	if (pos == left)
+	  message_writePtr +=  sprintf(message_writePtr, " is smaller than a[%d] = %d is written to\n", pos, shm_ptr[pos]);
+	else if (pos == (middle + 1))
+	  message_writePtr +=  sprintf(message_writePtr, " is larger than a[%d] = %d is written to\n", pos - 1, shm_ptr[pos - 1]);
+	else
+	  message_writePtr +=  sprintf(message_writePtr, " is between  a[%d] = %d  and a[%d] = %d\n", pos-1, shm_ptr[pos-1], pos, shm_ptr[pos]);
+      }
+	
+      write(1,message_write, strlen(message_write));
+
+
+
+
+
+      exit(EXIT_SUCCESS);
+	
+    }
+  }
+  else
+    return;
+}
 
 
 int main(int argc ,char **argv) {
-  int left, right, middle, num, proc, ppid = 0;
+  int left, right, middle, num, ppid = 0, pid, i;
   left = atoi(argv[1]);
   right = atoi(argv[2]);
-  proc = (int)*argv[3];
-  if (argv[4] != NULL)
-    ppid = atoi(argv[4]);
+
+  pid = getpid();
+  if (argv[3] != NULL)
+    ppid = atoi(argv[3]);
 
   char message_enter[80];
   char *message_enterPtr = message_enter;
@@ -41,6 +102,11 @@ int main(int argc ,char **argv) {
 
   middle = (right + left) / 2;
   num = right - left + 1;
+
+  key_t key = ftok("shmfile", 'a');
+  int shm_id = shmget(key, 1024 * sizeof(int), 0666);
+  int *shm_ptr = (int *)shmat(shm_id, NULL, 0);
+  
 
   if (num == 1) exit(EXIT_SUCCESS);
 
@@ -50,25 +116,54 @@ int main(int argc ,char **argv) {
 
   /* dispaly entering info */
   
-  switch(proc) {
-  case 'm':
-    message_enterPtr += sprintf(message_enterPtr, "### M-PROC(%d)", getpid() );
+  message_enterPtr += sprintf(message_enterPtr, "   ### M-PROC(%d)", getpid() );
+  if (ppid != 0)
+    message_enterPtr += sprintf(message_enterPtr, " created by M-PROC(%d)", ppid);
+  message_enterPtr += sprintf(message_enterPtr, ": entering with a[%d..%d]\n", left, right);
+  message_enterPtr += sprintf(message_enterPtr, "   ");
+  for (i = 0; i < num; i++)
+    message_enterPtr += sprintf(message_enterPtr, "   %d", shm_ptr[left + i]);
+  message_enterPtr += sprintf(message_enterPtr, "\n");   
+  write(1, message_enter, strlen(message_enter));   
+
+  /* sort process */
+
+  if (num == 2 && (shm_ptr[left] > shm_ptr[right])) {
+    message_enterPtr += sprintf(message_enterPtr, "   ### M-PROC(%d)", getpid() );
     if (ppid != 0)
       message_enterPtr += sprintf(message_enterPtr, " created by M-PROC(%d)", ppid);
-    message_enterPtr += sprintf(message_enterPtr, ": entering with a[%d..%d]\n", left, right);
+    message_enterPtr += sprintf(message_enterPtr, ": entering with a[%d..%d] -- sorted\n", left, right);
+    int temp = shm_ptr[left];
+    shm_ptr[left] = shm_ptr[right];
+    shm_ptr[right] = temp;
+    
+    message_enterPtr += sprintf(message_enterPtr, "   ");
+    for (i = 0; i < num; i++)
+      message_enterPtr += sprintf(message_enterPtr, "   %d", shm_ptr[left + i]);
+    message_enterPtr += sprintf(message_enterPtr, "\n");   
     write(1, message_enter, strlen(message_enter));   
-    break;
-  case 'b':
-    break;
+    
+   
   }
+  
+  if (num == 2)
+    exit(EXIT_SUCCESS);
 
-
-  MergeSort(left, middle);
-  MergeSort(middle + 1, right);
-
+  
+  MergeSort(left, middle, pid);
+  MergeSort(middle + 1, right, pid);
   wait(NULL);
   wait(NULL);
   
+  BinaryMerge(left, right, pid, shm_ptr);
+  wait(NULL);
 
+  /* display completion info */
+  
+  char message_complete[80];
+  sprintf(message_complete, "   ### M-PROC(%d) created by M-PROC(%d): merge sort a[%d..%d] complete\n", pid, ppid, left, right);
+  write(1, message_complete, strlen(message_complete));
 
+  
+  exit(EXIT_SUCCESS);
 }

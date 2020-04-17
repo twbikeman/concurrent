@@ -39,7 +39,7 @@ int main() {
    messagePtr = message;
    messagePtr += sprintf(messagePtr, "Input array for mergesort has %d elements\n", n);
    for (i = 0; i < n; i++)
-     messagePtr += sprintf(messagePtr, "\t%d", shm_ptr[i]);
+     messagePtr += sprintf(messagePtr, "   %d", shm_ptr[i]);
    messagePtr += sprintf(messagePtr, "\n\n");
    write(1, message, strlen(message));
   
@@ -54,12 +54,10 @@ int main() {
    char temp[80];
    sprintf(temp, "%d", n -1);
    params[2] = temp;
-   params[3] = '\0';
+   params[3] = NULL;
+   
 
-   printf("%s\n", params[0]);
-   printf("%s\n", params[1]);
-   printf("%s\n", params[2]);
-   printf("%p\n", params[3]);
+
   
    execvp(params[0], params);
    }
@@ -77,7 +75,7 @@ int main() {
    messagePtr = message;
    messagePtr += sprintf(messagePtr, "*** MAIN: merged array:\n");
    for (i = 0; i < n; i++)
-     messagePtr += sprintf(messagePtr, "\t%d", shm_ptr[i]);
+     messagePtr += sprintf(messagePtr, "   %d", shm_ptr[i]);
    messagePtr += sprintf(messagePtr, "\n\n");
    write(1, message, strlen(message));
 
@@ -106,11 +104,6 @@ int main() {
    
 
  
-  /*  for(i = 0; i < 2; i++) */
-  /*    printf("%d ", shm_ptr[i]); */
-  /* printf("\n"); */
-
-  /* printf("shmid: %d\n", shm_id); */
 
 
 
