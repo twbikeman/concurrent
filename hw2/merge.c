@@ -1,121 +1,74 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <string.h>
-#include <sys/wait.h>
-#include <sys/shm.h>
-#include <sys/ipc.h>
+#include <unistd.h>
 
 
-int search(int *a, int left, int right, int x) {
-  int middle =  (left + right) / 2;
-  if (x < a[left]) return left;
-  if (x > a[right]) return right + 1;
-  if ( a[middle] >  x &&  x > a[middle - 1]) return middle;
-  if (x < a[middle] )
-    return search(a, left, middle - 1, x);
+
+void MergeSort(int left, int right) {
+  
+  char param[5][80];
+  
+  sprintf(param[0], "./merge");
+  sprintf(param[1], "%d", left);
+  sprintf(param[2], "%d", right);
+  sprintf(param[3], "mproc");
+  sprintf(param[4], "%d", getpid());
+  char *params[6] = {param[0],param[1],param[2],param[3],param[4],NULL}; 
+
+  if (fork() == 0) {
+execvp(params[0], params); 
+  }
   else
-    return search(a, middle + 1, right, x);
+    return;
 }
 
-
-void mergeSort(int left, int right) {
-
-}
-
-void merge(int left, int right) {
-
-}
+  
 
 
 
-int main(int argc, char **argv) {
-  int left, right, middle, num;
+int main(int argc ,char **argv) {
+  int left, right, middle, num, proc, ppid = 0;
   left = atoi(argv[1]);
   right = atoi(argv[2]);
-  middle = (left + right) / 2;
+  proc = (int)*argv[3];
+  if (argv[4] != NULL)
+    ppid = atoi(argv[4]);
+
+  char message_enter[80];
+  char *message_enterPtr = message_enter;
+
+
+  middle = (right + left) / 2;
   num = right - left + 1;
-  char message[80];
-  char *messagePtr = message;
 
-  /* int *mem = malloc(num * sizeof(int)); */
-  /* key_t key= ftok("shmfile", 'a'); */
-  /* int shm_id = shmget(key, 1024 * sizeof(int), 0666); */
-  /* int *shm_ptr = (int *)shmat(shm_id, NULL, 0); */
+  if (num == 1) exit(EXIT_SUCCESS);
 
 
-  messagePtr += sprintf(messagePtr, "### M-PROC(%d) created by M-PROC(%d): entering with a[%d..%d]\n", getpid(), getppid(), left, right);
-  
-
-  if (num == 1) {
-    /* free(mem); */
-    exit(EXIT_SUCCESS);
-  }
-  else if (num == 2) {
-    
-    write(1, message, strlen(message));
-    /* free(mem); */
-    exit(EXIT_SUCCESS);
-  }
-    
-
-
-  char *param[4];
-  char params[4][80];
-
-
-
-  if (fork() != 0) { /* parent */
-    if (fork () != 0) {
-      wait(NULL);
-      wait(NULL);
-
-      write(1, message, strlen(message));
-
-      
-      /* free(mem); */
-    }
-    else {           /* child 2 */
-      sprintf(params[0], "%s", "./merge");
-      sprintf(params[1], "%d", middle + 1);
-      sprintf(params[2], "%d", right);
-      param[0] = params[0];
-      param[1] = params[1];
-      param[2] = params[2];
-      param[3] = NULL;
-      execvp(param[0], param);
-    }
-  }
-  else {   /* child 1 */
-    sprintf(params[0], "%s", "./merge");
-    sprintf(params[1], "%d", left);
-    sprintf(params[2], "%d", middle);
-    param[0] = params[0];
-    param[1] = params[1];
-    param[2] = params[2];
-    param[3] = NULL;
-    execvp(param[0], param);
-  }
 
   
 
+  /* dispaly entering info */
   
-  /* int a[] = {1,2,9,10}; */
-  /* int b[] = {4,5,6}; */
-  /* int c[7] = {0}; */
-  /* int x, i; */
-  /* for (i = 0; i < 3; i++) { */
-  /*   x = search(a, 0, 3, b[i]); */
-  /*   c[x + i] = b[i]; */
-  /* } */
-  /* for (i = 0; i < 4; i++) { */
-  /*   x = search(b, 0, 2, a[i]); */
-  /*   c[x + i] = a[i]; */
-  /* } */
-
-  /* for(i = 0; i < 7; i++) */
-  /*   printf("%d\t", c[i]); */
+  switch(proc) {
+  case 'm':
+    message_enterPtr += sprintf(message_enterPtr, "### M-PROC(%d)", getpid() );
+    if (ppid != 0)
+      message_enterPtr += sprintf(message_enterPtr, " created by M-PROC(%d)", ppid);
+    message_enterPtr += sprintf(message_enterPtr, ": entering with a[%d..%d]\n", left, right);
+    write(1, message_enter, strlen(message_enter));   
+    break;
+  case 'b':
+    break;
+  }
 
 
-  return 0;
+  MergeSort(left, middle);
+  MergeSort(middle + 1, right);
+
+  wait(NULL);
+  wait(NULL);
+  
+
+
 }
