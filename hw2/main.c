@@ -43,7 +43,34 @@ int main() {
    messagePtr += sprintf(messagePtr, "\n\n");
    write(1, message, strlen(message));
   
- 
+
+   /* fork */
+
+   if (fork() == 0) {
+
+   char *params[4];
+   params[0] = "./merge";
+   params[1] = "0";
+   char temp[80];
+   sprintf(temp, "%d", n -1);
+   params[2] = temp;
+   params[3] = '\0';
+
+   printf("%s\n", params[0]);
+   printf("%s\n", params[1]);
+   printf("%s\n", params[2]);
+   printf("%p\n", params[3]);
+  
+   execvp(params[0], params);
+   }
+   else
+     wait(NULL);
+        
+
+
+
+
+   
 
    /* show merged array */
    
@@ -87,22 +114,6 @@ int main() {
 
 
 
-  /* char *cmd = "./merge"; */
-
-  /* char *params[4]; */
-  /* params[0] = "./merge"; */
-  /* params[1] = "0"; */
-  /* char temp[80]; */
-  /* sprintf(temp, "%d", n -1); */
-  /* params[2] = temp; */
-  /* params[3] = '\0'; */
-
-  /* printf("%s\n", params[0]); */
-  /* printf("%s\n", params[1]); */
-  /* printf("%s\n", params[2]); */
-  /* printf("%p\n", params[3]); */
-  
-  /* execvp(params[0], params); */
 
   return 0;
 }

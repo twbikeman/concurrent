@@ -35,23 +35,26 @@ int main(int argc, char **argv) {
   right = atoi(argv[2]);
   middle = (left + right) / 2;
   num = right - left + 1;
+  char message[80];
+  char *messagePtr = message;
 
-  int *mem = malloc(num * sizeof(int));
+  /* int *mem = malloc(num * sizeof(int)); */
+  /* key_t key= ftok("shmfile", 'a'); */
+  /* int shm_id = shmget(key, 1024 * sizeof(int), 0666); */
+  /* int *shm_ptr = (int *)shmat(shm_id, NULL, 0); */
 
 
-  key_t key= ftok("shmfile", 'a');
-  int shm_id = shmget(key, 1024 * sizeof(int), 0666);
-  int *shm_ptr = (int *)shmat(shm_id, NULL, 0);
-
+  messagePtr += sprintf(messagePtr, "### M-PROC(%d) created by M-PROC(%d): entering with a[%d..%d]\n", getpid(), getppid(), left, right);
   
 
   if (num == 1) {
-    free(mem);
+    /* free(mem); */
     exit(EXIT_SUCCESS);
   }
   else if (num == 2) {
-    printf("left : %d\tright: %d\n", left, right);
-    free(mem);
+    
+    write(1, message, strlen(message));
+    /* free(mem); */
     exit(EXIT_SUCCESS);
   }
     
@@ -66,8 +69,11 @@ int main(int argc, char **argv) {
     if (fork () != 0) {
       wait(NULL);
       wait(NULL);
-      printf("left : %d\tright: %d\n", left, right);
-      free(mem);
+
+      write(1, message, strlen(message));
+
+      
+      /* free(mem); */
     }
     else {           /* child 2 */
       sprintf(params[0], "%s", "./merge");
