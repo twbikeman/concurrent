@@ -19,33 +19,37 @@ int search(int *a, int left, int right, int x) {
 }
 
 
+void mergeSort(int left, int right) {
+
+}
+
+void merge(int left, int right) {
+
+}
+
 
 
 int main(int argc, char **argv) {
-  int left, right, middle;
+  int left, right, middle, num;
   left = atoi(argv[1]);
   right = atoi(argv[2]);
   middle = (left + right) / 2;
+  num = right - left + 1;
 
-  int *mem = malloc((right - left + 1) * sizeof(int));
+  int *mem = malloc(num * sizeof(int));
 
 
   key_t key= ftok("shmfile", 'a');
   int shm_id = shmget(key, 1024 * sizeof(int), 0666);
   int *shm_ptr = (int *)shmat(shm_id, NULL, 0);
 
-
-  
-  
   
 
-  
-
-  if (left == right) {
+  if (num == 1) {
     free(mem);
     exit(EXIT_SUCCESS);
   }
-  else if (right == left + 1) {
+  else if (num == 2) {
     printf("left : %d\tright: %d\n", left, right);
     free(mem);
     exit(EXIT_SUCCESS);
