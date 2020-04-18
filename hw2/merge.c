@@ -41,10 +41,10 @@ int search(int *a, int left, int right, int x) {
   
 void BinaryMerge(int left, int right, int ppid, int *shm_ptr) {
   if (fork() == 0) {
-    int i, pos;
+    int i, pos, tempIndex;
     int middle  = (left + right) / 2;
     int num = right - left + 1;
-
+    int temp[num];
     char message_create[180];
 
     for(i = left; i <= right; i++) {
@@ -53,23 +53,29 @@ void BinaryMerge(int left, int right, int ppid, int *shm_ptr) {
       message_createPtr += sprintf(message_createPtr, "      $$$ B-PROC(%d): create by M-PROC(%d) for a[%d] = %d is created\n", getpid(), ppid, i, shm_ptr[i]);
       
       message_createPtr += sprintf(message_createPtr, "      $$$ B-PROC(%d): a[%d] = %d", getpid(), i, shm_ptr[i]);
-      if (i < middle) {
+      if (i <= middle) {
 	pos = search(shm_ptr, middle + 1, right, shm_ptr[i] );
+	tempIndex = i - left +  pos - (middle + 1); /* temp's index */
 	if (pos == middle + 1)
-	  message_createPtr +=  sprintf(message_createPtr, " is smaller than a[%d] = %d is written to\n", middle + 1, shm_ptr[middle + 1]); /* delta = 0 */
+	  message_createPtr +=  sprintf(message_createPtr, " is smaller than a[%d] = %d is written to a[%d]\n", middle + 1, shm_ptr[middle + 1], tempIndex); /* delta = 0 */
+
+	 
+	
+	
 	else if (pos == (right + 1))
-	  message_createPtr +=  sprintf(message_createPtr, " is larger than a[%d] = %d is written to\n", right, shm_ptr[right]); /* delta = right + 1 -left */
+	  message_createPtr +=  sprintf(message_createPtr, " is larger than a[%d] = %d is written to a[%d]\n", right, shm_ptr[right], tempIndex); /* delta = right + 1 -left */
 	else
-	  message_createPtr +=  sprintf(message_createPtr, " is between  a[%d] = %d  and a[%d] = %d\n and written to", pos-1, shm_ptr[pos-1], pos, shm_ptr[pos]);
+	  message_createPtr +=  sprintf(message_createPtr, " is between  a[%d] = %d  and a[%d] = %d and written to a[%d]\n", pos-1, shm_ptr[pos-1], pos, shm_ptr[pos], tempIndex);
       }
       else {
 	int pos = search(shm_ptr, left, middle, shm_ptr[i] );
+	tempIndex = i - (middle + 1) +  pos - left; /* temp's index */
 	if (pos == left)
-	  message_createPtr +=  sprintf(message_createPtr, " is smaller than a[%d] = %d is written to\n", left, shm_ptr[left]);
+	  message_createPtr +=  sprintf(message_createPtr, " is smaller than a[%d] = %d is written to a[%d]\n", left, shm_ptr[left], tempIndex);
 	else if (pos == (middle + 1))
-	  message_createPtr +=  sprintf(message_createPtr, " is larger than a[%d] = %d is written to\n", middle, shm_ptr[middle]);
+	  message_createPtr +=  sprintf(message_createPtr, " is larger than a[%d] = %d is written to a[%d]\n", middle, shm_ptr[middle], tempIndex);
 	else
-	  message_createPtr +=  sprintf(message_createPtr, " is between  a[%d] = %d  and a[%d] = %d\n and is written to", pos-1, shm_ptr[pos-1], pos, shm_ptr[pos]);
+	  message_createPtr +=  sprintf(message_createPtr, " is between  a[%d] = %d  and a[%d] = %d and is written to a[%d]\n", pos-1, shm_ptr[pos-1], pos, shm_ptr[pos], tempIndex);
       }
 
 

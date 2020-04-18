@@ -1,0 +1,8 @@
+int main(int argc, char **argv) {
+
+
+  int righ =  atoi(argv[1]);
+  int left = atoi(argv[2]));
+  
+  return 0;
+}

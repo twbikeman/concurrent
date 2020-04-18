@@ -9,8 +9,9 @@
 int main(int argc, char **argv) {
   int fd = open("testtest.txt", O_RDONLY);
   err(1, NULL);
-
+  write(1, "test%d", 10)
+    for
   
-  return 0;
-  
+  Return 0;
+  pri
 }

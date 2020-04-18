@@ -84,6 +84,8 @@ void  ellipseArea(int a, int b, int s) {
     if (test <= 1.0) sum++;
   }
   double area = 4 * a *  b *  (double)sum / s;
+
+  
   
   printf("         Total random Number Paris %d\n", s);
   printf("         Semi-Major Axis Length %d\n", a);
@@ -93,6 +95,7 @@ void  ellipseArea(int a, int b, int s) {
   printf("         Actual Area is %f\n", a * b * acos(-1.0));
   printf("         Ellipse Area Process Exits\n");
 }
+
 
 
 void pinball(int x, int y) {

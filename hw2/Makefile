@@ -1,9 +1,10 @@
 .PHONY: test
 CC=gcc
+CFLAGS=-std=c89
 main: main.c merge
-	$(CC) -o main main.c -std=c89
+	$(CC) $(CFLAGS) -o main main.c -std=c89
 merge: merge.c
-	$(CC) -o merge merge.c -std=c89
+	$(CC) $(CFLAGS) -o merge merge.c -std=c89
 
 test:
 	./main < input-file
