@@ -1,0 +1,8 @@
+.PHONY: test
+CC=gcc
+main: main.c merge.c
+	$(CC) -o main main.c -std=c89
+	$(CC) -o merge main.c -std=c89
+
+test:
+	./main < input-file
