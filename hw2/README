@@ -1,0 +1,45 @@
+Question 1:
+The main program will read input-file and then put the data into the shared
+memory. After that, it call the execvp function to load the merge program to
+replace the current program. Besides, the main program pass the array's left
+and right index to new program. The shared memory pointer can be obtained
+through the same key.
+
+Question 2:
+The Merge program will divide the unsorted array into 2 segment and split 2 more
+children processes to do the sorting stuff.The parent process will wait util the
+two segment is sorted, then merge two segments into one. Because parent process
+has to wait the children to finish their own jobs, the race condition will be
+avoid. In other way, it guarantee the final result will be correct.
+
+
+Question 3:
+First step is to gain shared memory key which can be return by ftok() function.
+Second step is to received unique id to a block of specific memory through
+shmget function.
+Third step is to let process attach the memory through shat function.
+Final step is that release the use of memory before the process terminated. It
+can be achieved by invoking shmctl function.
+
+ Question 4:
+ No. each parent process have to wait util its children finish their individual
+ jobs. Each process only deal with their own scope between left and right index.
+ each segment is mutual exclusive.
+
+ Question 5:
+
+ The intermediate array on stack is used to prevent the sorted element to store
+ on the unsorted data's position. If the data is restored back to original array
+ , the unsorted data is replace and cannot be retrieved forever.
+
+ Question 6:
+ I allocate an array of integers on stack within the merge function. One of the
+ advantage is that when process leave from the function section.the stack
+  variable, it is destroyed automatically.
+
+Question 7:
+Yes, the N number of process can be summoned from the merge phase, and keep
+busy asking each process had bee sorted properly. the new process enter the
+merge phase will affects  other had merged  process.It mean the other originally
+merged process and larger than the new process will have to move their original
+index to the next index toward the next index.
