@@ -1,0 +1,14 @@
+Q1:
+Are there any race conditions in this prefix sum computation? Why?
+No, there are no race conditions. Because each thread only write data  on their memory space. And each run only can finish after every thread finished thier jobs. In this way, previous run's jobs will not effect the next run's jobs.
+
+Q2:
+each i must be composed the one and only combination of 2's power set. it mean it will be logarithm of i items of 2's expotential.
+each run will the memory will accumate previous items.
+
+Q3:
+No, because intermediate result will pollute the original value, which will lead to the wrong answer in the end.
+
+Q4:
+
+We can assign a thread to join thier previous run's thread of the same column. In this way, we don't need to wait all the threads of the same to finished thier jobs.
