@@ -1,0 +1,105 @@
+ Baby eagle 1 started.
+  Baby eagle 2 started.
+   Baby eagle 3 started.
+    Baby eagle 4 started.
+     Baby eagle 5 started.
+      Baby eagle 6 started.
+       Baby eagle 7 started.
+        Baby eagle 8 started.
+         Baby eagle 9 started.
+          Baby eagle 10 started.
+           Baby eagle 11 started.
+             Baby eagle 13 started.
+              Baby eagle 14 started.
+               Baby eagle 15 started.
+            Baby eagle 12 started.
+          Baby eagle 10 is eating the 0's pot.
+      Baby eagle 6 is eating the 1's pot.
+       Baby eagle 7 is eating the 2's pot.
+             Baby eagle 13 is eating the 3's pot.
+         Baby eagle 9 is eating the 4's pot.
+  Baby eagle 2 is eating the 5's pot.
+    Baby eagle 4 is eating the 6's pot.
+            Baby eagle 12 is eating the 7's pot.
+   Baby eagle 3 is waiting.
+        Baby eagle 8 is waiting.
+              Baby eagle 14 is waiting.
+           Baby eagle 11 is waiting.
+      Baby eagle 6 finishes eating.
+ Baby eagle 1 is waiting.
+       Baby eagle 7 finishes eating.
+               Baby eagle 15 is waiting.
+     Baby eagle 5 is waiting.
+       Baby eagle 7 is waiting.
+   Baby eagle 3 finishes eating.
+          Baby eagle 10 finishes eating.
+            Baby eagle 12 finishes eating.
+  Baby eagle 2 finishes eating.
+           Baby eagle 11 finishes eating.
+ Baby eagle 1 finishes eating.
+         Baby eagle 9 finishes eating.
+             Baby eagle 13 finishes eating.
+              Baby eagle 14 finishes eating.
+       Baby eagle 7 finishes eating.
+      Baby eagle 6 is waiting.
+          Baby eagle 10 is waiting.
+      Baby eagle 6 finishes eating.
+    Baby eagle 4 finishes eating.
+    Baby eagle 4 is about to call mother.
+        Baby eagle 8 finishes eating.
+               Baby eagle 15 finishes eating.
+               Baby eagle 15 is about to call mother.
+   Baby eagle 3 is about to call mother.
+            Baby eagle 12 is about to call mother.
+ Baby eagle 1 is about to call mother.
+ Baby eagle 1 is about to call mother.
+           Baby eagle 11 is about to call mother.
+    Baby eagle 4 is about to call mother.
+    Baby eagle 4 is about to call mother.
+  Baby eagle 2 is about to call mother.
+     Baby eagle 5 finishes eating.
+               Baby eagle 15 is about to call mother.
+   Baby eagle 3 is about to call mother.
+        Baby eagle 8 is about to call mother.
+   Baby eagle 3 is about to call mother.
+  Baby eagle 2 is about to call mother.
+ Baby eagle 1 is about to call mother.
+          Baby eagle 10 finishes eating.
+           Baby eagle 11 is about to call mother.
+               Baby eagle 15 is about to call mother.
+           Baby eagle 11 is about to call mother.
+    Baby eagle 4 is about to call mother.
+        Baby eagle 8 is about to call mother.
+            Baby eagle 12 is about to call mother.
+    Baby eagle 4 is about to call mother.
+    Baby eagle 4 is about to call mother.
+    Baby eagle 4 is about to call mother.
+  Baby eagle 2 is about to call mother.
+        Baby eagle 8 is about to call mother.
+               Baby eagle 15 is about to call mother.
+   Baby eagle 3 is about to call mother.
+ Baby eagle 1 is about to call mother.
+           Baby eagle 11 is about to call mother.
+ Baby eagle 1 is about to call mother.
+           Baby eagle 11 is about to call mother.
+  Baby eagle 2 is about to call mother.
+           Baby eagle 11 is about to call mother.
+               Baby eagle 15 is about to call mother.
+            Baby eagle 12 is about to call mother.
+   Baby eagle 3 is about to call mother.
+        Baby eagle 8 is about to call mother.
+           Baby eagle 11 is about to call mother.
+           Baby eagle 11 is about to call mother.
+    Baby eagle 4 is about to call mother.
+ Baby eagle 1 is about to call mother.
+        Baby eagle 8 is about to call mother.
+               Baby eagle 15 is about to call mother.
+    Baby eagle 4 is about to call mother.
+    Baby eagle 4 is about to call mother.
+            Baby eagle 12 is about to call mother.
+            Baby eagle 12 is about to call mother.
+   Baby eagle 3 is about to call mother.
+ Baby eagle 1 is about to call mother.
+  Baby eagle 2 is about to call mother.
+   Baby eagle 3 is about to call mother.
+ Baby eagle 1 is about to call mother.
